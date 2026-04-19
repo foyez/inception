@@ -14,8 +14,8 @@ if [ ! -d "/var/lib/mysql/mysql" ]; then
     chown -R mysql:mysql /var/lib/mysql
     mariadb-install-db --user=mysql --datadir=/var/lib/mysql > /dev/null
 
-    # start temporary server
-    mysqld --user=mysql --skip-networking &
+    # start temporary server without networking for initialization
+    mariadbd --user=mysql --skip-networking --skip-grant-tables &
     MYSQL_PID=$!
 
     # wait until ready

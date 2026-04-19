@@ -37,6 +37,6 @@ shell_db:
 	docker exec -it $(MARIADB_SVC) /bin/sh
 
 shell_wp:
-	docker exec -it $(WP_SVC) /bin/sh
+	docker exec -it $(WP_SVC) /bin/bash
 
 .PHONY: all create_dirs up down fclean re status logs shell_db shell_wp
