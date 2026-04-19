@@ -1,6 +1,7 @@
 #!/bin/bash
 
 set -e
+# set -x  # print every command as it runs ← add this during debugging
 
 DB_PASSWORD=$(cat /run/secrets/db_password | tr -d '\n')
 WP_ADMIN_PASSWORD=$(cat /run/secrets/credentials | tr -d '\n')

@@ -47,6 +47,20 @@ services:
     networks:
       - inception
 
+  nginx:
+    build: ./requirements/nginx
+    image: nginx
+    container_name: nginx
+    restart: unless-stopped
+    depends_on:
+      - wordpress
+    ports:
+      - "443:443"
+    volumes:
+      - wp_data:/var/www/html
+    networks:
+      - inception
+
 volumes:
   db_data:
     driver: local
