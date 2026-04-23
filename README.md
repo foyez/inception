@@ -12,6 +12,7 @@
 ### Web Server & Backend Stack
 
 - [Nginx Documentation](https://nginx.org/en/docs/)
+- [Nginx Tutorial - Nana](https://www.youtube.com/watch?v=q8OleYuqntY)
 - [PHP-FPM Documentation](https://www.php.net/manual/en/install.fpm.php)
 - [MariaDB Documentation](https://mariadb.com/kb/en/)
 - [PHP-FPM with Nginx (FastCGI setup tutorial)](https://www.digitalocean.com/community/tutorials/understanding-and-implementing-fastcgi-proxying-in-nginx)
