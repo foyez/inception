@@ -15,10 +15,24 @@ mkdir -p /etc/nginx/ssl
 # -out       → where to write the certificate
 # -subj      → certificate subject (CN = Common Name = domain name)
 openssl req -x509 -nodes -days 365 \
-    -newkey rsa:2048 \
-    -keyout /etc/nginx/ssl/kaahmed.key \
-    -out /etc/nginx/ssl/kaahmed.crt \
-    -subj "/C=DE/ST=BW/L=Heilbronn/O=42/CN=kaahmed.42.fr"
+  -newkey rsa:2048 \
+  -keyout /etc/nginx/ssl/kaahmed.key \
+  -out /etc/nginx/ssl/kaahmed.crt \
+  -subj "/C=DE/ST=BW/L=Heilbronn/O=42/CN=kaahmed.42.fr"
+
+# Wait for PHP-FPM in wordpress container to accept TCP connections.
+# MAX_TRIES=60
+# TRY=0
+# until nc -z wordpress 9000; do
+#   TRY=$((TRY + 1))
+#   if [ "$TRY" -ge "$MAX_TRIES" ]; then
+#     echo "wordpress:9000 is not reachable"
+#     exit 1
+#   fi
+#   sleep 2
+# done
+
+nginx -t
 
 # ── Start NGINX in foreground ─────────────────────────────────────────────────
 # -g 'daemon off;' → prevents NGINX from daemonizing itself

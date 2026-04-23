@@ -12,16 +12,17 @@ until mariadb-admin ping -h mariadb -u "${MYSQL_USER}" -p"${DB_PASSWORD}" --sile
 done
 echo "MariaDB is up."
 
-if [ ! -f /var/www/html/wp-config.php ]; then
+# Create webroot directory and move there
+mkdir -p /var/www/html
+cd /var/www/html
 
-  # Create webroot directory
-  mkdir -p /var/www/html
-  cd /var/www/html
-
-  # Download WordPress core files using WP-CLI
+# Ensure WordPress core files exist locally
+if [ ! -f /var/www/html/wp-load.php ]; then
   wp core download --allow-root --quiet
+fi
 
-  # Create wp-config.php
+# Ensure wp-config.php exists
+if [ ! -f /var/www/html/wp-config.php ]; then
   wp config create \
     --allow-root \
     --dbname="${MYSQL_DATABASE}" \
@@ -29,8 +30,10 @@ if [ ! -f /var/www/html/wp-config.php ]; then
     --dbpass="${DB_PASSWORD}" \
     --dbhost="mariadb" \
     --quiet
+fi
 
-  # Install WordPress (creates DB tables, sets up admin account)
+# Install WordPress only once per database
+if ! wp core is-installed --allow-root >/dev/null 2>&1; then
   wp core install \
     --allow-root \
     --url="https://${DOMAIN_NAME}" \
@@ -40,17 +43,20 @@ if [ ! -f /var/www/html/wp-config.php ]; then
     --admin_email="${WP_ADMIN_EMAIL}" \
     --skip-email \
     --quiet
+fi
 
-  # Create a second non-admin WordPress user
+# Create secondary user only if it does not exist yet
+if ! wp user get "${WP_USER}" --field=ID --allow-root >/dev/null 2>&1; then
   wp user create \
     --allow-root \
     "${WP_USER}" "${WP_USER_EMAIL}" \
     --role=author \
     --user_pass="${WP_ADMIN_PASSWORD}" \
     --quiet
-
-  chown -R nobody:nobody /var/www/html
-
 fi
+
+chown -R nobody:nobody /var/www/html
+
+php-fpm -t
 
 exec php-fpm -F
