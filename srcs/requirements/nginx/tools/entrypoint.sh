@@ -2,6 +2,16 @@
 
 set -e
 
+if [ -z "${DOMAIN_NAME:-}" ]; then
+  echo "DOMAIN_NAME is required"
+  exit 1
+fi
+
+if [ -z "${USERNAME:-}" ]; then
+  echo "USERNAME is required"
+  exit 1
+fi
+
 # ── Create SSL directory ─────────────────────────────────────────────────────
 mkdir -p /etc/nginx/ssl
 
@@ -16,9 +26,11 @@ mkdir -p /etc/nginx/ssl
 # -subj      → certificate subject (CN = Common Name = domain name)
 openssl req -x509 -nodes -days 365 \
   -newkey rsa:2048 \
-  -keyout /etc/nginx/ssl/kaahmed.key \
-  -out /etc/nginx/ssl/kaahmed.crt \
-  -subj "/C=DE/ST=BW/L=Heilbronn/O=42/CN=kaahmed.42.fr"
+  -keyout "/etc/nginx/ssl/${USERNAME}.key" \
+  -out "/etc/nginx/ssl/${USERNAME}.crt" \
+  -subj "/C=DE/ST=BW/L=Heilbronn/O=42/CN=${DOMAIN_NAME}"
+
+envsubst '$DOMAIN_NAME $USERNAME' < /etc/nginx/templates/default.conf.template > /etc/nginx/http.d/default.conf
 
 # Wait for PHP-FPM in wordpress container to accept TCP connections.
 # MAX_TRIES=60
