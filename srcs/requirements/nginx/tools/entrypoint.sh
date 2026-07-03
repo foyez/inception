@@ -12,10 +12,10 @@ if [ -z "${USERNAME:-}" ]; then
   exit 1
 fi
 
-# ── Create SSL directory ─────────────────────────────────────────────────────
+# Create SSL directory
 mkdir -p /etc/nginx/ssl
 
-# ── Generate a self-signed TLS certificate ────────────────────────────────────
+# Generate a self-signed TLS certificate
 #
 # -x509      → output a self-signed certificate (not a CSR)
 # -nodes     → no passphrase on the private key (nginx can't enter one at startup)
@@ -32,21 +32,9 @@ openssl req -x509 -nodes -days 365 \
 
 envsubst '$DOMAIN_NAME $USERNAME' < /etc/nginx/templates/default.conf.template > /etc/nginx/http.d/default.conf
 
-# Wait for PHP-FPM in wordpress container to accept TCP connections.
-# MAX_TRIES=60
-# TRY=0
-# until nc -z wordpress 9000; do
-#   TRY=$((TRY + 1))
-#   if [ "$TRY" -ge "$MAX_TRIES" ]; then
-#     echo "wordpress:9000 is not reachable"
-#     exit 1
-#   fi
-#   sleep 2
-# done
-
 nginx -t
 
-# ── Start NGINX in foreground ─────────────────────────────────────────────────
+# Start NGINX in foreground
 # -g 'daemon off;' → prevents NGINX from daemonizing itself
 # Without this, nginx would fork to the background and the container would exit
 exec nginx -g "daemon off;"
