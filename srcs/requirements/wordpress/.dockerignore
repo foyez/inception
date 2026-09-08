@@ -1,0 +1,36 @@
+# --- Secrets & Environment Variables (CRITICAL for Evaluation) ---
+# .env must NEVER be baked into the image. It should only be read by docker-compose.
+secrets/
+.env
+srcs/.env
+*.env
+
+# --- Local Volumetric Data / Host Folders ---
+# Prevents local database files or WordPress uploads from bloating the build context
+data/
+srcs/data/
+*/data/
+wp_data/
+db_data/
+
+# --- Git & Version Control ---
+.git
+.gitignore
+
+# --- OS Specific Files (Common on 42 Cluster Macs/Linux) ---
+.DS_Store
+.DS_Store?
+.cache/
+.config/
+
+# --- Evaluation & Subject Files ---
+# Keeps the subject PDF, checklists, or your evaluation notes out of the container
+*.pdf
+README.md
+eval/
+notes/
+
+# --- Docker Configurations (Optional but clean) ---
+# Once docker-compose uses them to build, they don't need to exist inside the containers
+docker-compose.yml
+srcs/docker-compose.yml
