@@ -36,7 +36,8 @@ services:
       
     secrets:
       - db_password
-      - credentials
+      - wp_admin_password
+      - wp_user_password
     networks:
       - inception
 

@@ -4,7 +4,8 @@ set -e
 # set -x  # print every command as it runs ← add this during debugging
 
 DB_PASSWORD=$(cat /run/secrets/db_password | tr -d '\n')
-WP_ADMIN_PASSWORD=$(cat /run/secrets/credentials | tr -d '\n')
+WP_ADMIN_PASSWORD=$(cat /run/secrets/wp_admin_password | tr -d '\n')
+WP_USER_PASSWORD=$(cat /run/secrets/wp_user_password | tr -d '\n')
 
 echo "Waiting for MariaDB..."
 until mariadb-admin ping -h mariadb -u "${MYSQL_USER}" -p"${DB_PASSWORD}" --silent; do
@@ -51,7 +52,7 @@ if ! wp user get "${WP_USER}" --field=ID --allow-root >/dev/null 2>&1; then
     --allow-root \
     "${WP_USER}" "${WP_USER_EMAIL}" \
     --role=author \
-    --user_pass="${WP_ADMIN_PASSWORD}" \
+    --user_pass="${WP_USER_PASSWORD}" \
     --quiet
 fi
 
