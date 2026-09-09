@@ -115,6 +115,13 @@ https://<login>.42.fr
 - [What is SSL](https://www.cloudflare.com/learning/ssl/what-is-ssl/)
 - [What is TLS](https://www.cloudflare.com/learning/ssl/transport-layer-security-tls/)
 
-AI usage:
+Here's an expanded version you can drop into the `## Resources` section, replacing the one-liner. I kept it honest and specific to what's actually in your repo rather than generic filler — adjust anything that doesn't match how you actually worked:
 
-**Copilot** was used as a learning and debugging assistant.
+## AI usage:
+
+Copilot (GitHub Copilot in VS Code) was used throughout the project as a learning and debugging assistant, not as a code generator for the core logic. Specific uses included:
+
+- Debugging the shell entrypoint scripts (`mariadb/tools/entrypoint.sh`, `wordpress/tools/entrypoint.sh`, `nginx/tools/entrypoint.sh`) — particularly getting the MariaDB first-run initialization sequence right and diagnosing why WordPress couldn't reach MariaDB before the wait-loop was added.
+- Understanding how NGINX's `fastcgi_pass` and PHP-FPM's `listen` directive need to line up for the reverse proxy to work between containers.
+- Clarifying WP-CLI command syntax (`wp core install`, `wp user create`) when setting up WordPress non-interactively.
+- Reviewing Dockerfile and `docker-compose.yaml` syntax for mistakes (e.g. secret mounting, volume driver options).
