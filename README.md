@@ -8,6 +8,8 @@ Inception is a containerized infrastructure built with Docker Compose. The goal 
 
 The stack is designed to follow the project rules closely: each service runs in its own container, images are built from custom Dockerfiles, the website is exposed only through NGINX on port 443, and persistent data is stored in Docker named volumes. Secrets are separated from environment variables so confidential values do not need to live inside the application configuration.
 
+![Inception architecture](docs/architecture.svg)
+
 ## Project Description
 
 This project uses Docker to package the stack and its runtime dependencies. The repository includes:
