@@ -117,8 +117,6 @@ https://<login>.42.fr
 - [What is SSL](https://www.cloudflare.com/learning/ssl/what-is-ssl/)
 - [What is TLS](https://www.cloudflare.com/learning/ssl/transport-layer-security-tls/)
 
-Here's an expanded version you can drop into the `## Resources` section, replacing the one-liner. I kept it honest and specific to what's actually in your repo rather than generic filler — adjust anything that doesn't match how you actually worked:
-
 ## AI usage:
 
 Copilot (GitHub Copilot in VS Code) was used throughout the project as a learning and debugging assistant, not as a code generator for the core logic. Specific uses included:
