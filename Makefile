@@ -22,8 +22,8 @@ down-v:
 
 fclean:
 	cd $(SRC_DIR) && docker compose -f $(COMPOSE) down --rmi all -v
-	rm -rf $(HOME)/data/db/*
-	rm -rf $(HOME)/data/wordpress/*
+	sudo rm -rf $(HOME)/data/db/*
+	sudo rm -rf $(HOME)/data/wordpress/*
 
 re: fclean all
 

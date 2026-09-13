@@ -31,6 +31,9 @@ if [ ! -f /var/www/html/wp-config.php ]; then
     --dbpass="${DB_PASSWORD}" \
     --dbhost="mariadb" \
     --quiet
+
+  wp config set WP_HOME "https://\${_SERVER['HTTP_HOST']}" --raw --allow-root --quiet
+  wp config set WP_SITEURL "https://\${_SERVER['HTTP_HOST']}" --raw --allow-root --quiet
 fi
 
 # Install WordPress only once per database
