@@ -32,9 +32,10 @@ if [ ! -f /var/www/html/wp-config.php ]; then
     --dbhost="mariadb" \
     --quiet
 
-  wp config set WP_HOME "https://\${_SERVER['HTTP_HOST']}" --raw --allow-root --quiet
-  wp config set WP_SITEURL "https://\${_SERVER['HTTP_HOST']}" --raw --allow-root --quiet
 fi
+
+wp config set WP_HOME '("https://" . $_SERVER["HTTP_HOST"])' --raw --allow-root --quiet
+wp config set WP_SITEURL '("https://" . $_SERVER["HTTP_HOST"])' --raw --allow-root --quiet
 
 # Install WordPress only once per database
 if ! wp core is-installed --allow-root >/dev/null 2>&1; then

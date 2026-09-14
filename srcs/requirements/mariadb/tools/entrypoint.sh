@@ -7,11 +7,11 @@ DB_PASSWORD=$(cat /run/secrets/db_password | tr -d '\n')
 
 mkdir -p /run/mysqld
 chown -R mysql:mysql /run/mysqld
+chown -R mysql:mysql /var/lib/mysql
 
 # Initialize database only if it's empty
 if [ ! -d "/var/lib/mysql/mysql" ]; then
 
-  chown -R mysql:mysql /var/lib/mysql
   mariadb-install-db --user=mysql --datadir=/var/lib/mysql > /dev/null
 
   # start temporary server without networking for initialization
